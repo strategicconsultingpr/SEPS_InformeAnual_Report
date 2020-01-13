@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "SEPS_InformeAnual_V1", "SEPS_InformeAnual_V1\SEPS_InformeAnual_V1.rptproj", "{C1891DB7-F783-4AC0-94C9-23C901E3B43E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.Debug|Default.ActiveCfg = Debug
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.Debug|Default.Build.0 = Debug
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.Debug|Default.Deploy.0 = Debug
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.DebugLocal|Default.Build.0 = DebugLocal
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.Release|Default.ActiveCfg = Release
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.Release|Default.Build.0 = Release
+		{C1891DB7-F783-4AC0-94C9-23C901E3B43E}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DAFA4EC-CFC1-4026-815B-50FDCE688712}
+	EndGlobalSection
+EndGlobal
