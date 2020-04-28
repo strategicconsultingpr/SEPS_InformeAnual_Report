@@ -26,6 +26,18 @@
           <QueryParameter Name="@Programas">
             <Value>=Parameters!Programa.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@Tipo">
+            <Value>=Parameters!Tipo.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@NivelSM">
+            <Value>=Parameters!NivelSM.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Referido">
+            <Value>=Parameters!Referido.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@EstadoLegal">
+            <Value>=Parameters!EstadoLegal.Value</Value>
+          </QueryParameter>
         </QueryParameters>
         <CommandText>SELECT DISTINCT 
                          --TOP (10) PERCENT 
@@ -103,7 +115,24 @@ where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) FOR XML PATH('')),1,1,'
 
 						PK_Diagnostico = 
 						STUFF( (SELECT ', ' + CONVERT(varchar,PK_Diagnostico) from SA_Ref_CondicionesDiagnosticadas as CD INNER JOIN SA_LKP_DIAGNOSTICO as D ON CD.FK_Diagnostico = D.PK_Diagnostico
-						where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) FOR XML PATH('')),1,1,'')
+						where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) FOR XML PATH('')),1,1,''),
+
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 1) = 1 THEN 'SI' ELSE 'NO' END as Practica_ApoyoEducación,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 2) = 2 THEN 'SI' ELSE 'NO' END as Practica_ApoyoEmpleoNiños,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 3) = 3 THEN 'SI' ELSE 'NO' END as Practica_ReforzamientoComunitario,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 4) = 4 THEN 'SI' ELSE 'NO' END as Practica_TerapiaMultisistémica,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 5) = 5 THEN 'SI' ELSE 'NO' END as Practica_EntrevistaMotivacionalNiños,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 6) = 6 THEN 'SI' ELSE 'NO' END as Practica_PsicoeducaciónFamiliar,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 7) = 7 THEN 'SI' ELSE 'NO' END as Practica_ManejoEnfermedadRecuperación,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 8) = 8 THEN 'SI' ELSE 'NO' END as Practica_ApoyoEmpleo,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 9) = 9 THEN 'SI' ELSE 'NO' END as Practica_TratamientoIntegrado,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 10) = 10 THEN 'SI' ELSE 'NO' END as Practica_ManejoDeLaMedicación,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 11) = 11 THEN 'SI' ELSE 'NO' END as Practica_PlanDeAcciónRecuperaciónBienestar,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 12) = 12 THEN 'SI' ELSE 'NO' END as Practica_EntrevistaMotivacional,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica in (13,14)) in (13,14) THEN 'SI' ELSE 'NO' END as Practica_Otro,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 15) = 15 THEN 'SI' ELSE 'NO' END as Practica_WrapAround,
+						CASE when (select PK_Practica from SA_LKP_PracticasBasadasEnEvidencia inner join SA_Ref_PracticasBasadasEnEvidencia on PK_Practica = FK_Practica where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) and PK_Practica = 16) = 16 THEN 'SI' ELSE 'NO' END as Practica_WrapAroundNiños
+
 
 FROM                      
                          dbo.VW_EPISODIO INNER JOIN
@@ -121,7 +150,8 @@ FROM
 						 dbo.SA_LKP_MILITAR as M on ND.FK_Militar = M.PK_MILITAR LEFT OUTER JOIN
 						 dbo.SA_LKP_MILITAR as FM on ND.FK_FamMilitar = FM.PK_MILITAR LEFT OUTER JOIN
 						 dbo.SA_LKP_GENERO as G on ND.FK_Genero = G.PK_Genero
-WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo.VW_EPISODIO.FK_Programa in  (@Programas))</CommandText>
+WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo.VW_EPISODIO.FK_Programa in  (@Programas)) AND (dbo.VW_PERFILES_MATRIX.IN_TI_Perfil in (@Tipo)) AND (dbo.VW_EPISODIO.FK_NivelCuidadoMental in (@NivelSM)) AND (dbo.VW_EPISODIO.FK_FuenteReferido in (@Referido)) AND
+(dbo.VW_EPISODIO.FK_EstadoLegal in (@EstadoLegal))</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -1001,6 +1031,66 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
           <DataField>PK_Diagnostico</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Practica_ApoyoEducación">
+          <DataField>Practica_ApoyoEducación</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_ApoyoEmpleoNiños">
+          <DataField>Practica_ApoyoEmpleoNiños</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_ReforzamientoComunitario">
+          <DataField>Practica_ReforzamientoComunitario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_TerapiaMultisistémica">
+          <DataField>Practica_TerapiaMultisistémica</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_EntrevistaMotivacionalNiños">
+          <DataField>Practica_EntrevistaMotivacionalNiños</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_PsicoeducaciónFamiliar">
+          <DataField>Practica_PsicoeducaciónFamiliar</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_ManejoEnfermedadRecuperación">
+          <DataField>Practica_ManejoEnfermedadRecuperación</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_ApoyoEmpleo">
+          <DataField>Practica_ApoyoEmpleo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_TratamientoIntegrado">
+          <DataField>Practica_TratamientoIntegrado</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_ManejoDeLaMedicación">
+          <DataField>Practica_ManejoDeLaMedicación</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_PlanDeAcciónRecuperaciónBienestar">
+          <DataField>Practica_PlanDeAcciónRecuperaciónBienestar</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_EntrevistaMotivacional">
+          <DataField>Practica_EntrevistaMotivacional</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_Otro">
+          <DataField>Practica_Otro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_WrapAround">
+          <DataField>Practica_WrapAround</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Practica_WrapAroundNiños">
+          <DataField>Practica_WrapAroundNiños</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
     <DataSet Name="Programas">
@@ -1015,6 +1105,76 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
         </Field>
         <Field Name="NB_Programa">
           <DataField>NB_Programa</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Niveles_SaludMental">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>(select PK_SaludMental, DE_SaludMental  from [SEPS].[dbo].[SA_LKP_SALUD_MENTAL]  
+where PK_SaludMental IN ( 99) )
+union (
+select PK_SaludMental, DE_SaludMental  from [SEPS].[dbo].[SA_LKP_SALUD_MENTAL] where Active = 1 and PK_SaludMental NOT IN (99))</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_SaludMental">
+          <DataField>PK_SaludMental</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_SaludMental">
+          <DataField>DE_SaludMental</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Niveles_AbusoSustancia">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>(select PK_AbusoSustancias, DE_AbusoSustancias  from [SEPS].[dbo].[SA_LKP_ABUSO_SUSTANCIAS]  
+where PK_AbusoSustancias IN ( 99) )
+union (
+select PK_AbusoSustancias, DE_AbusoSustancias  from [SEPS].[dbo].[SA_LKP_ABUSO_SUSTANCIAS] where Active = 1 and PK_AbusoSustancias NOT IN (99))</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_AbusoSustancias">
+          <DataField>PK_AbusoSustancias</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_AbusoSustancias">
+          <DataField>DE_AbusoSustancias</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Referido">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_Referido, DE_Referido from [SEPS].[dbo].[SA_LKP_TEDS_REFERIDO] where Active = 1 order by 2</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_Referido">
+          <DataField>PK_Referido</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_Referido">
+          <DataField>DE_Referido</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="EstadoLegal">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_EstadoLegal, DE_EstadoLegal from [SEPS].[dbo].[SA_LKP_TEDS_ESTADO_LEGAL] order by 2</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_EstadoLegal">
+          <DataField>PK_EstadoLegal</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_EstadoLegal">
+          <DataField>DE_EstadoLegal</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -1046,7 +1206,7 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
             </Paragraphs>
             <rd:DefaultName>textbox1</rd:DefaultName>
             <Height>0.43in</Height>
-            <Width>220.28473in</Width>
+            <Width>235.28473in</Width>
             <Style>
               <PaddingLeft>2pt</PaddingLeft>
               <PaddingRight>2pt</PaddingRight>
@@ -1713,6 +1873,51 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.52083in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -10274,6 +10479,561 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox212">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Apoyo Educación</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox212</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox217">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Apoyo Empleo Niños</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox217</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox221">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Reforzamiento Comunitario</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox221</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox225">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Terapia Multisistémica</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox225</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox229">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Entrevista Motivacional Niños</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox229</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox231">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Psicoeducación Familiar</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox231</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox233">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Manejo Enfermedad Recuperación</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox233</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox235">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Apoyo Empleo</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox235</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox237">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Tratamiento Integrado</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox237</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox240">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Manejo De La Medicación</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox240</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox242">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Plan De Acción Recuperación Bienestar</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox242</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox244">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Entrevista Motivacional</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox244</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox246">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Otro</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox246</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox248">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Wrap Around</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox248</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox250">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Practica Wrap Around Niños</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>#666666</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox250</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -18147,12 +18907,552 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_ApoyoEducación">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_ApoyoEducación.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_ApoyoEducación</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_ApoyoEmpleoNiños">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_ApoyoEmpleoNiños.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_ApoyoEmpleoNiños</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_ReforzamientoComunitario">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_ReforzamientoComunitario.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_ReforzamientoComunitario</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_TerapiaMultisistémica">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_TerapiaMultisistémica.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_TerapiaMultisistémica</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_EntrevistaMotivacionalNiños">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_EntrevistaMotivacionalNiños.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_EntrevistaMotivacionalNiños</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_PsicoeducaciónFamiliar">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_PsicoeducaciónFamiliar.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_PsicoeducaciónFamiliar</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_ManejoEnfermedadRecuperación">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_ManejoEnfermedadRecuperación.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_ManejoEnfermedadRecuperación</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_ApoyoEmpleo">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_ApoyoEmpleo.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_ApoyoEmpleo</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_TratamientoIntegrado">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_TratamientoIntegrado.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_TratamientoIntegrado</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_ManejoDeLaMedicación">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_ManejoDeLaMedicación.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_ManejoDeLaMedicación</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_PlanDeAcciónRecuperaciónBienestar">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_PlanDeAcciónRecuperaciónBienestar.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_PlanDeAcciónRecuperaciónBienestar</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_EntrevistaMotivacional">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_EntrevistaMotivacional.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_EntrevistaMotivacional</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_Otro">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_Otro.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_Otro</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_WrapAround">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_WrapAround.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_WrapAround</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Practica_WrapAroundNiños">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Practica_WrapAroundNiños.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Practica_WrapAroundNiños</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -18398,7 +19698,7 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
             <Top>0.96125in</Top>
             <Left>0.01042in</Left>
             <Height>0.43in</Height>
-            <Width>220.27431in</Width>
+            <Width>235.27431in</Width>
             <ZIndex>1</ZIndex>
             <Style />
           </Tablix>
@@ -18406,7 +19706,7 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
         <Height>1.41208in</Height>
         <Style />
       </Body>
-      <Width>220.28473in</Width>
+      <Width>235.34029in</Width>
       <Page>
         <LeftMargin>1in</LeftMargin>
         <RightMargin>1in</RightMargin>
@@ -18419,15 +19719,21 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
   <ReportParameters>
     <ReportParameter Name="start">
       <DataType>DateTime</DataType>
-      <Prompt>start</Prompt>
+      <Prompt>FECHA INICIAL</Prompt>
     </ReportParameter>
     <ReportParameter Name="end">
       <DataType>DateTime</DataType>
-      <Prompt>end</Prompt>
+      <Prompt>FECHA FINAL</Prompt>
     </ReportParameter>
     <ReportParameter Name="Programa">
       <DataType>Integer</DataType>
-      <Prompt>Programa</Prompt>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Programas</DataSetName>
+          <ValueField>PK_Programa</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>PROGRAMA</Prompt>
       <ValidValues>
         <DataSetReference>
           <DataSetName>Programas</DataSetName>
@@ -18437,11 +19743,111 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
       </ValidValues>
       <MultiValue>true</MultiValue>
     </ReportParameter>
+    <ReportParameter Name="Tipo">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>AD</Value>
+          <Value>AL</Value>
+          <Value>EV</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TIPO DE PERFIL</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>AD</Value>
+            <Label>AD</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>EV</Value>
+            <Label>EV</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>AL</Value>
+            <Label>AL</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="NivelSM">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Niveles_SaludMental</DataSetName>
+          <ValueField>PK_SaludMental</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>NIVEL CUIDADO : SALUD MENTAL</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Niveles_SaludMental</DataSetName>
+          <ValueField>PK_SaludMental</ValueField>
+          <LabelField>DE_SaludMental</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="NivelAS">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Niveles_AbusoSustancia</DataSetName>
+          <ValueField>PK_AbusoSustancias</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>NIVEL DE CUIDADO : ABUSO SUSTANCIA</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Niveles_AbusoSustancia</DataSetName>
+          <ValueField>PK_AbusoSustancias</ValueField>
+          <LabelField>DE_AbusoSustancias</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Referido">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Referido</DataSetName>
+          <ValueField>PK_Referido</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>REFERIDO</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Referido</DataSetName>
+          <ValueField>PK_Referido</ValueField>
+          <LabelField>DE_Referido</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="EstadoLegal">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>EstadoLegal</DataSetName>
+          <ValueField>PK_EstadoLegal</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>ESTADO LEGAL</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>EstadoLegal</DataSetName>
+          <ValueField>PK_EstadoLegal</ValueField>
+          <LabelField>DE_EstadoLegal</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
+      <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -18457,6 +19863,31 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
           <ColumnIndex>0</ColumnIndex>
           <RowIndex>1</RowIndex>
           <ParameterName>Programa</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>Tipo</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>NivelSM</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>NivelAS</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>Referido</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>EstadoLegal</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
