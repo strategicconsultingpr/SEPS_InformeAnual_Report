@@ -6,9 +6,10 @@
     <DataSource Name="DS_SEPS">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=VHERMES;Initial Catalog=SEPS</ConnectString>
+        <ConnectString>Data Source=GRAM-FALU\ALEXIEFALU;Initial Catalog=SEPS</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
       </ConnectionProperties>
-      <rd:SecurityType>DataBase</rd:SecurityType>
+      <rd:SecurityType>Integrated</rd:SecurityType>
       <rd:DataSourceID>207c478b-7837-4567-aed0-7bcdb48a163d</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -37,6 +38,57 @@
           </QueryParameter>
           <QueryParameter Name="@EstadoLegal">
             <Value>=Parameters!EstadoLegal.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@GrupoEtnico">
+            <Value>=Parameters!GrupoEtnico.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Raza">
+            <Value>=Parameters!Raza.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Sexo">
+            <Value>=Parameters!Sexo.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Residencia">
+            <Value>=Parameters!Residencia.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CondicionLaboral">
+            <Value>=Parameters!CondicionLaboral.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProblemaJusticia">
+            <Value>=Parameters!ProblemaJusticia.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Arrestado30Dias">
+            <Value>=Parameters!Arrestado30Dias.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Grado">
+            <Value>=Parameters!Grado.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DesertorEscolar">
+            <Value>=Parameters!DesertorEscolar.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@SituacionEscolar">
+            <Value>=Parameters!SituacionEscolar.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ViolenciaDomestica">
+            <Value>=Parameters!ViolenciaDomestica.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Maltrato">
+            <Value>=Parameters!Maltrato.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IntentoSuicida">
+            <Value>=Parameters!IntentoSuicida.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdeaSuicida">
+            <Value>=Parameters!IdeaSuicida.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@TipoAdmision">
+            <Value>=Parameters!TipoAdmision.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DSMIV1_1">
+            <Value>=Parameters!DSMIV1_1.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@EjeV1_1">
+            <Value>=Parameters!EjeV1_1.Value</Value>
           </QueryParameter>
         </QueryParameters>
         <CommandText>SELECT DISTINCT 
@@ -151,7 +203,24 @@ FROM
 						 dbo.SA_LKP_MILITAR as FM on ND.FK_FamMilitar = FM.PK_MILITAR LEFT OUTER JOIN
 						 dbo.SA_LKP_GENERO as G on ND.FK_Genero = G.PK_Genero
 WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo.VW_EPISODIO.FK_Programa in  (@Programas)) AND (dbo.VW_PERFILES_MATRIX.IN_TI_Perfil in (@Tipo)) AND (dbo.VW_EPISODIO.FK_NivelCuidadoMental in (@NivelSM)) AND (dbo.VW_EPISODIO.FK_FuenteReferido in (@Referido)) AND
-(dbo.VW_EPISODIO.FK_EstadoLegal in (@EstadoLegal))</CommandText>
+(dbo.VW_EPISODIO.FK_EstadoLegal in (@EstadoLegal)) AND
+(dbo.VW_PERSONAS_MATRIX.FK_GrupoEtnico in (@GrupoEtnico)) AND
+(dbo.VW_PERSONAS_MATRIX.FK_Raza in (@Raza)) AND
+(dbo.VW_PERSONAS_MATRIX.FK_Sexo in (@Sexo)) AND
+(dbo.VW_PERFILES_MATRIX.FK_Residencia in (@Residencia)) AND
+(dbo.VW_PERFILES_MATRIX.FK_CondicionLaboral in (@CondicionLaboral)) AND
+(dbo.VW_EPISODIO.FK_Justicia in (@ProblemaJusticia)) AND
+(dbo.VW_PERFILES_MATRIX.IN_Arrestado30dias in (@Arrestado30Dias)) AND
+(dbo.VW_PERFILES_MATRIX.FK_Escolaridad in (@Grado)) AND
+(dbo.VW_PERFILES_MATRIX.IN_DesertorEscolar in (@DesertorEscolar)) AND
+(dbo.VW_PERFILES_MATRIX.FK_SituacionEscolar in (@SituacionEscolar)) AND
+(dbo.VW_EPISODIO.IN_ViolenciaDomestica in (@ViolenciaDomestica)) AND
+(dbo.VW_EPISODIO.IN_Maltrato in (@Maltrato)) AND
+(dbo.VW_EPISODIO.IN_Suicida in (@IntentoSuicida)) AND
+(dbo.VW_EPISODIO.IN_IdeaSuicida in (@IdeaSuicida)) AND
+(dbo.VW_PERFILES_MATRIX.FK_TipoAdmision in (@TipoAdmision)) AND
+(ISNULL(dbo.VW_PERFILES_MATRIX.[DSMIV1-1],'NULL') in (@DSMIV1_1)) AND
+(ISNULL(dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosClinicos1,0) in (@EjeV1_1))</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <Fields>
@@ -1175,6 +1244,198 @@ select PK_AbusoSustancias, DE_AbusoSustancias  from [SEPS].[dbo].[SA_LKP_ABUSO_S
         </Field>
         <Field Name="DE_EstadoLegal">
           <DataField>DE_EstadoLegal</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="GrupoEtnico">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_GrupoEtnico, DE_GrupoEtnico from [SEPS].[dbo].[SA_LKP_TEDS_GRUPO_ETNICO] where Active = 1</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_GrupoEtnico">
+          <DataField>PK_GrupoEtnico</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_GrupoEtnico">
+          <DataField>DE_GrupoEtnico</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Raza">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_Raza, DE_Raza from [SEPS].[dbo].[SA_LKP_TEDS_RAZA] where Active = 1</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_Raza">
+          <DataField>PK_Raza</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_Raza">
+          <DataField>DE_Raza</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Sexo">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_Sexo, DE_Sexo from [SEPS].[dbo].[SA_LKP_TEDS_SEXO]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_Sexo">
+          <DataField>PK_Sexo</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_Sexo">
+          <DataField>DE_Sexo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Residencia">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_Residencia, DE_Residencia from [SEPS].[dbo].[SA_LKP_TEDS_RESIDENCIA]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_Residencia">
+          <DataField>PK_Residencia</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_Residencia">
+          <DataField>DE_Residencia</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="CondicionLaboral">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_CondLaboral, DE_CondLaboral from [SEPS].[dbo].[SA_LKP_TEDS_COND_LABORAL]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_CondLaboral">
+          <DataField>PK_CondLaboral</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_CondLaboral">
+          <DataField>DE_CondLaboral</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="ProblemaJusticia">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_ProbJusticia, DE_ProbJusticia from [SEPS].[dbo].[SA_LKP_PROBLEMA_JUSTICIA] order by 2</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_ProbJusticia">
+          <DataField>PK_ProbJusticia</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_ProbJusticia">
+          <DataField>DE_ProbJusticia</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Grado">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_Grado, DE_Grado from [SEPS].[dbo].[SA_LKP_TEDS_GRADO]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_Grado">
+          <DataField>PK_Grado</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_Grado">
+          <DataField>DE_Grado</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="SituacionEscolar">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_SituacionEscolar, DE_SituacionEscolar from [SEPS].[dbo].[SA_LKP_TEDS_SITUACION_ESCOLAR]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_SituacionEscolar">
+          <DataField>PK_SituacionEscolar</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_SituacionEscolar">
+          <DataField>DE_SituacionEscolar</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="TipoAdmision">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_TipoAdmision,DE_TipoAdmision from [SEPS].[dbo].[SA_LKP_TEDS_TIPO_ADMISION]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_TipoAdmision">
+          <DataField>PK_TipoAdmision</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_TipoAdmision">
+          <DataField>DE_TipoAdmision</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DSMIV1_1">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select 'NULL' as PK_DSMIV
+union
+select PK_DSMIV from [SEPS].[dbo].[SA_LKP_DSMIV]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_DSMIV">
+          <DataField>PK_DSMIV</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="EjeV1_1">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select 0 as _PK_DSMV, 'NULL' as DE_DSMV
+union
+select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID_PK_DSMV">
+          <DataField>_PK_DSMV</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DE_DSMV">
+          <DataField>DE_DSMV</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Droga1">
+      <Query>
+        <DataSourceName>DS_SEPS</DataSourceName>
+        <CommandText>select PK_Sustancia, DE_Sustancia from [SEPS].[dbo].[SA_LKP_TEDS_SUSTANCIA]</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PK_Sustancia">
+          <DataField>PK_Sustancia</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DE_Sustancia">
+          <DataField>DE_Sustancia</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -19725,6 +19986,47 @@ select PK_AbusoSustancias, DE_AbusoSustancias  from [SEPS].[dbo].[SA_LKP_ABUSO_S
       <DataType>DateTime</DataType>
       <Prompt>FECHA FINAL</Prompt>
     </ReportParameter>
+    <ReportParameter Name="GrupoEtnico">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>GrupoEtnico</DataSetName>
+          <ValueField>PK_GrupoEtnico</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>GRUPO ETNICO</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>GrupoEtnico</DataSetName>
+          <ValueField>PK_GrupoEtnico</ValueField>
+          <LabelField>DE_GrupoEtnico</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Arrestado">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+          <Value>2</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ARRESTADO</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SI</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>NO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
     <ReportParameter Name="Programa">
       <DataType>Integer</DataType>
       <DefaultValue>
@@ -19771,6 +20073,42 @@ select PK_AbusoSustancias, DE_AbusoSustancias  from [SEPS].[dbo].[SA_LKP_ABUSO_S
       </ValidValues>
       <MultiValue>true</MultiValue>
     </ReportParameter>
+    <ReportParameter Name="Raza">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Raza</DataSetName>
+          <ValueField>PK_Raza</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>RAZA</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Raza</DataSetName>
+          <ValueField>PK_Raza</ValueField>
+          <LabelField>DE_Raza</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="ProblemaJusticia">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>ProblemaJusticia</DataSetName>
+          <ValueField>PK_ProbJusticia</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>PROBLEMA JUSTICIA</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>ProblemaJusticia</DataSetName>
+          <ValueField>PK_ProbJusticia</ValueField>
+          <LabelField>DE_ProbJusticia</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
     <ReportParameter Name="NivelSM">
       <DataType>Integer</DataType>
       <DefaultValue>
@@ -19803,6 +20141,24 @@ select PK_AbusoSustancias, DE_AbusoSustancias  from [SEPS].[dbo].[SA_LKP_ABUSO_S
           <DataSetName>Niveles_AbusoSustancia</DataSetName>
           <ValueField>PK_AbusoSustancias</ValueField>
           <LabelField>DE_AbusoSustancias</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Sexo">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Sexo</DataSetName>
+          <ValueField>PK_Sexo</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>SEXO</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Sexo</DataSetName>
+          <ValueField>PK_Sexo</ValueField>
+          <LabelField>DE_Sexo</LabelField>
         </DataSetReference>
       </ValidValues>
       <MultiValue>true</MultiValue>
@@ -19843,51 +20199,463 @@ select PK_AbusoSustancias, DE_AbusoSustancias  from [SEPS].[dbo].[SA_LKP_ABUSO_S
       </ValidValues>
       <MultiValue>true</MultiValue>
     </ReportParameter>
+    <ReportParameter Name="Residencia">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Residencia</DataSetName>
+          <ValueField>PK_Residencia</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>RESIDENCIA</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Residencia</DataSetName>
+          <ValueField>PK_Residencia</ValueField>
+          <LabelField>DE_Residencia</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="CondicionLaboral">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>CondicionLaboral</DataSetName>
+          <ValueField>PK_CondLaboral</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>CONDICION LABORAL</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>CondicionLaboral</DataSetName>
+          <ValueField>PK_CondLaboral</ValueField>
+          <LabelField>DE_CondLaboral</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Arrestado30Dias">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+          <Value>2</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ARRESTADO 30 DIAS</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SI</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>NO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Grado">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Grado</DataSetName>
+          <ValueField>PK_Grado</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>GRADO</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Grado</DataSetName>
+          <ValueField>PK_Grado</ValueField>
+          <LabelField>DE_Grado</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="DesertorEscolar">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+          <Value>2</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>DESERTOR ESCOLAR</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SI</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>NO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="SituacionEscolar">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>SituacionEscolar</DataSetName>
+          <ValueField>PK_SituacionEscolar</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>SITUACION ESCOLAR</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>SituacionEscolar</DataSetName>
+          <ValueField>PK_SituacionEscolar</ValueField>
+          <LabelField>DE_SituacionEscolar</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="ViolenciaDomestica">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+          <Value>2</Value>
+          <Value>94</Value>
+          <Value>96</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>VIOLENCIA DOMESTICA</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SI</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>NO</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>94</Value>
+            <Label>NO RECUERDA</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>96</Value>
+            <Label>NO INFORMO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Maltrato">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+          <Value>2</Value>
+          <Value>3</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>MATRATO</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SI</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>NO</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>3</Value>
+            <Label>NO RECUERDA</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="IntentoSuicida">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+          <Value>2</Value>
+          <Value>94</Value>
+          <Value>96</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>INTENTO SUICIDA</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SI</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>NO</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>94</Value>
+            <Label>NO RECUERDA</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>96</Value>
+            <Label>NO INFORMO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="IdeaSuicida">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+          <Value>2</Value>
+          <Value>94</Value>
+          <Value>96</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>IDEA SUICIDA</Prompt>
+      <ValidValues>
+        <ParameterValues>
+          <ParameterValue>
+            <Value>1</Value>
+            <Label>SI</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>2</Value>
+            <Label>NO</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>94</Value>
+            <Label>NO RECUERDA</Label>
+          </ParameterValue>
+          <ParameterValue>
+            <Value>96</Value>
+            <Label>NO INFORMO</Label>
+          </ParameterValue>
+        </ParameterValues>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="TipoAdmision">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>TipoAdmision</DataSetName>
+          <ValueField>PK_TipoAdmision</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>TIPO ADMISION</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>TipoAdmision</DataSetName>
+          <ValueField>PK_TipoAdmision</ValueField>
+          <LabelField>DE_TipoAdmision</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="DSMIV1_1">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DSMIV1_1</DataSetName>
+          <ValueField>PK_DSMIV</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>DSMIV1-1</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DSMIV1_1</DataSetName>
+          <ValueField>PK_DSMIV</ValueField>
+          <LabelField>PK_DSMIV</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="EjeV1_1">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>EjeV1_1</DataSetName>
+          <ValueField>ID_PK_DSMV</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>EJE V1</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>EjeV1_1</DataSetName>
+          <ValueField>ID_PK_DSMV</ValueField>
+          <LabelField>DE_DSMV</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="Droga1">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>Droga1</DataSetName>
+          <ValueField>PK_Sustancia</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>DROGA 1</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Droga1</DataSetName>
+          <ValueField>PK_Sustancia</ValueField>
+          <LabelField>DE_Sustancia</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
-      <NumberOfColumns>2</NumberOfColumns>
-      <NumberOfRows>4</NumberOfRows>
+      <NumberOfColumns>6</NumberOfColumns>
+      <NumberOfRows>8</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>0</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>start</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>0</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>end</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>Programa</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <RowIndex>2</RowIndex>
           <ParameterName>Tipo</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>3</RowIndex>
           <ParameterName>NivelSM</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>2</RowIndex>
+          <RowIndex>3</RowIndex>
           <ParameterName>NivelAS</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>Referido</ParameterName>
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>3</RowIndex>
+          <RowIndex>4</RowIndex>
           <ParameterName>EstadoLegal</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>GrupoEtnico</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>Raza</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>Sexo</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>4</RowIndex>
+          <ParameterName>Residencia</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>CondicionLaboral</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>5</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>Arrestado</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>5</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>ProblemaJusticia</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>4</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>Arrestado30Dias</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>5</ColumnIndex>
+          <RowIndex>5</RowIndex>
+          <ParameterName>Grado</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>DesertorEscolar</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>SituacionEscolar</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>ViolenciaDomestica</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>Maltrato</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>4</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>IntentoSuicida</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>5</ColumnIndex>
+          <RowIndex>6</RowIndex>
+          <ParameterName>IdeaSuicida</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>TipoAdmision</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>DSMIV1_1</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>EjeV1_1</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>7</RowIndex>
+          <ParameterName>Droga1</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>
