@@ -6,10 +6,10 @@
     <DataSource Name="DS_SEPS">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=GRAM-FALU\ALEXIEFALU;Initial Catalog=SEPS</ConnectString>
-        <IntegratedSecurity>true</IntegratedSecurity>
+        <ConnectString>Data Source=VHERMES;Initial Catalog=SEPS</ConnectString>
+        <Prompt>Specify a user name and password for data source DS_SEPS:</Prompt>
       </ConnectionProperties>
-      <rd:SecurityType>Integrated</rd:SecurityType>
+      <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>207c478b-7837-4567-aed0-7bcdb48a163d</rd:DataSourceID>
     </DataSource>
   </DataSources>
