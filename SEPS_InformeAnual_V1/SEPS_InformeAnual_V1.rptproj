@@ -5,14 +5,14 @@
     <OutputPath>bin\Debug</OutputPath>
     <ErrorLevel>2</ErrorLevel>
     <OverwriteDatasets>False</OverwriteDatasets>
-    <OverwriteDataSources>False</OverwriteDataSources>
+    <OverwriteDataSources>True</OverwriteDataSources>
     <TargetServerVersion>SSRS2008R2</TargetServerVersion>
     <Platform>Win32</Platform>
     <TargetReportFolder>Informes de Portal Extracciones</TargetReportFolder>
     <TargetDatasetFolder>Datasets</TargetDatasetFolder>
     <TargetDatasourceFolder>Data Sources</TargetDatasourceFolder>
     <TargetReportPartFolder>Report Parts</TargetReportPartFolder>
-    <TargetServerURL>http://vhermes/ReportServer</TargetServerURL>
+    <TargetServerURL>http://192.168.100.24//ReportServer</TargetServerURL>
     <StartItem>Informe Anual.rdl</StartItem>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugLocal' ">
@@ -49,6 +49,9 @@
     <DataSets>@(DataSet)</DataSets>
     <Reports>@(Report)</Reports>
   </PropertyGroup>
+  <ItemGroup>
+    <DataSource Include="DS_SEPS.rds" />
+  </ItemGroup>
   <ItemGroup>
     <Report Include="AD_AS_TEDS-SEPS MATCH.rdl" />
     <Report Include="AD_SM_TEDS-SEPS MATCH.rdl" />

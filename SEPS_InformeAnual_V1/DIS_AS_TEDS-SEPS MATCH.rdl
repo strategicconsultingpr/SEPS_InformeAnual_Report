@@ -6,8 +6,7 @@
     <DataSource Name="DS_SEPS">
       <ConnectionProperties>
         <DataProvider>SQL</DataProvider>
-        <ConnectString>Data Source=VHERMES;Initial Catalog=SEPS</ConnectString>
-        <Prompt>Specify a user name and password for data source DS_SEPS:</Prompt>
+        <ConnectString>Data Source=192.168.100.24;Initial Catalog=SEPS</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>6d6b52ba-0389-40e1-8850-32841e8da814</rd:DataSourceID>
