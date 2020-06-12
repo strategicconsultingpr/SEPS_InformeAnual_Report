@@ -57,6 +57,7 @@
     <Report Include="AD_SM_TEDS-SEPS MATCH.rdl" />
     <Report Include="DIS_AS_TEDS-SEPS MATCH.rdl" />
     <Report Include="DIS_SM_TEDS-SEPS MATCH.rdl" />
+    <Report Include="Informe Anual Fecha.rdl" />
     <Report Include="Informe Anual.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
