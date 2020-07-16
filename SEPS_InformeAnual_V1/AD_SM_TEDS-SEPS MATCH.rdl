@@ -60,7 +60,7 @@
 
 						/*VARIABLE NAME: Co-Dependant/Collateral */
 						/*TABLE NAME: Co-Dependant */
-							 CASE dbo.SA_EPISODIO.IN_CodDependiente WHEN 1 THEN '1' ELSE '2' END
+							 CASE dbo.SA_EPISODIO.IN_CodDependiente WHEN 1 THEN '2' ELSE '2' END
 						AS [CoDep],
 
 						dbo.SA_EPISODIO.IN_CodDependiente,
