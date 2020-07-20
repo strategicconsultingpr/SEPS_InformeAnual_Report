@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Report Include="AD_AS_TEDS-SEPS MATCH.rdl" />
+    <Report Include="AD_OBSERVATORIO.rdl" />
     <Report Include="AD_SM_TEDS-SEPS MATCH.rdl" />
     <Report Include="DIS_AS_TEDS-SEPS MATCH.rdl" />
     <Report Include="DIS_SM_TEDS-SEPS MATCH.rdl" />
