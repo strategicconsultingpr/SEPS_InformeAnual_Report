@@ -657,7 +657,9 @@
 					  AS Perfil,
 
                       dbo.[sa_perfil].fk_episodio
-					  AS Episode
+					  AS Episode,
+
+						dbo.SA_USUARIO.NB_Usuario + ' ' + dbo.SA_USUARIO.AP_Usuario AS Usuario
 
       FROM   
 					 dbo.sa_episodio
@@ -727,6 +729,10 @@
                              INNER JOIN dbo.sa_raza_persona
                                      ON dbo.sa_lkp_teds_raza.pk_raza = dbo.sa_raza_persona.fk_raza
                           ON dbo.sa_persona.pk_persona = dbo.sa_raza_persona.fk_persona
+
+ LEFT OUTER JOIN
+                         dbo.SA_USUARIO INNER JOIN
+                         dbo.SA_SESION ON dbo.SA_USUARIO.PK_Usuario = dbo.SA_SESION.FK_Usuario ON dbo.SA_PERFIL.FK_Sesion = dbo.SA_SESION.PK_Sesion
      
 		
 		WHERE	(dbo.sa_PROGRAMA.co_tipo = 1)		--PROGRAMAS IDENTIFICADOS COMO TIPO DE ABUSO DE SUSTANCIA
@@ -1153,6 +1159,10 @@
           <DataField>Episode</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -1163,6 +1173,9 @@
           <Tablix Name="table1">
             <TablixBody>
               <TablixColumns>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
                 <TablixColumn>
                   <Width>1in</Width>
                 </TablixColumn>
@@ -5254,6 +5267,43 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Usuario</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#666666</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -8795,12 +8845,46 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Usuario">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Usuario.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Usuario</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#666666</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -8930,14 +9014,14 @@
             <DataSetName>DataSet1</DataSetName>
             <Top>0.055in</Top>
             <Height>0.43in</Height>
-            <Width>104in</Width>
+            <Width>105in</Width>
             <Style />
           </Tablix>
         </ReportItems>
         <Height>0.86in</Height>
         <Style />
       </Body>
-      <Width>104in</Width>
+      <Width>105in</Width>
       <Page>
         <LeftMargin>1in</LeftMargin>
         <RightMargin>1in</RightMargin>

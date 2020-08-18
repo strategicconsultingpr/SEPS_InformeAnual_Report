@@ -429,7 +429,9 @@
 						AS Perfil,
 
 							dbo.[SA_PERFIL].FK_Episodio
-						AS Episode
+						AS Episode,
+
+						dbo.SA_USUARIO.NB_Usuario + ' ' + dbo.SA_USUARIO.AP_Usuario AS Usuario
  
 FROM		dbo.SA_LKP_TEDS_GRADO INNER JOIN
             dbo.SA_EPISODIO INNER JOIN
@@ -469,6 +471,9 @@ FROM		dbo.SA_LKP_TEDS_GRADO INNER JOIN
             dbo.SA_RAZA_PERSONA ON dbo.SA_LKP_TEDS_RAZA.PK_Raza = dbo.SA_RAZA_PERSONA.FK_Raza ON dbo.SA_PERSONA.PK_Persona = dbo.SA_RAZA_PERSONA.FK_Persona LEFT OUTER JOIN
             dbo.VW_RPT_TEDS_RAZAS_PERSONAS ON dbo.SA_EPISODIO.FK_Persona = dbo.VW_RPT_TEDS_RAZAS_PERSONAS.FK_Persona
 
+ LEFT OUTER JOIN
+                         dbo.SA_USUARIO INNER JOIN
+                         dbo.SA_SESION ON dbo.SA_USUARIO.PK_Usuario = dbo.SA_SESION.FK_Usuario ON dbo.SA_PERFIL.FK_Sesion = dbo.SA_SESION.PK_Sesion
 
 WHERE       (dbo.sa_PROGRAMA.co_tipo in (2,3,4))			--PROGRAMAS IDENTIFICADOS COMO TIPO DE SALUD MENTAL
 			AND (dbo.SA_PROGRAMA.REP_TEDS_MH = 1)			--PROGRAMAS IDENTIFICADOS PARA ENVIAR TRANSACCIONES A SISTEMA TEDS
@@ -769,6 +774,10 @@ WHERE       (dbo.sa_PROGRAMA.co_tipo in (2,3,4))			--PROGRAMAS IDENTIFICADOS COM
           <DataField>Episode</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -779,6 +788,9 @@ WHERE       (dbo.sa_PROGRAMA.co_tipo in (2,3,4))			--PROGRAMAS IDENTIFICADOS COM
           <Tablix Name="table1">
             <TablixBody>
               <TablixColumns>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
                 <TablixColumn>
                   <Width>1in</Width>
                 </TablixColumn>
@@ -3646,6 +3658,43 @@ WHERE       (dbo.sa_PROGRAMA.co_tipo in (2,3,4))			--PROGRAMAS IDENTIFICADOS COM
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Usuario</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#666666</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -6133,12 +6182,46 @@ WHERE       (dbo.sa_PROGRAMA.co_tipo in (2,3,4))			--PROGRAMAS IDENTIFICADOS COM
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Usuario">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Usuario.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Usuario</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#666666</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -6237,14 +6320,14 @@ WHERE       (dbo.sa_PROGRAMA.co_tipo in (2,3,4))			--PROGRAMAS IDENTIFICADOS COM
             <DataSetName>DataSet1</DataSetName>
             <Top>0.055in</Top>
             <Height>0.43in</Height>
-            <Width>73in</Width>
+            <Width>74in</Width>
             <Style />
           </Tablix>
         </ReportItems>
         <Height>0.86in</Height>
         <Style />
       </Body>
-      <Width>73in</Width>
+      <Width>74in</Width>
       <Page>
         <LeftMargin>1in</LeftMargin>
         <RightMargin>1in</RightMargin>

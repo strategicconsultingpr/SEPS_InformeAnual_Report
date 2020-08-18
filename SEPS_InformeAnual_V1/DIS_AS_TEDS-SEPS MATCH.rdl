@@ -422,7 +422,9 @@
 					  AS Perfil,
                        
 					  dbo.[sa_perfil].fk_episodio      
-					  AS Episode
+					  AS Episode,
+
+						dbo.SA_USUARIO.NB_Usuario + ' ' + dbo.SA_USUARIO.AP_Usuario AS Usuario
       
 	  --FROM   dbo.sa_lkp_teds_sustancia AS SA_LKP_TEDS_SUSTANCIA_TERCIARIA
    --          INNER JOIN dbo.sa_lkp_teds_residencia
@@ -515,6 +517,9 @@
             dbo.SA_RAZA_PERSONA ON dbo.SA_LKP_TEDS_RAZA.PK_Raza = dbo.SA_RAZA_PERSONA.FK_Raza ON dbo.SA_PERSONA.PK_Persona = dbo.SA_RAZA_PERSONA.FK_Persona LEFT OUTER JOIN
             dbo.VW_RPT_TEDS_RAZAS_PERSONAS ON dbo.SA_EPISODIO.FK_Persona = dbo.VW_RPT_TEDS_RAZAS_PERSONAS.FK_Persona
 
+LEFT OUTER JOIN
+                         dbo.SA_USUARIO INNER JOIN
+                         dbo.SA_SESION ON dbo.SA_USUARIO.PK_Usuario = dbo.SA_SESION.FK_Usuario ON dbo.SA_PERFIL.FK_Sesion = dbo.SA_SESION.PK_Sesion
 	 
 	       WHERE	(dbo.sa_PROGRAMA.co_tipo = 1)			--PROGRAMAS IDENTIFICADOS COMO TIPO DE ABUSO DE SUSTANCIA
 				AND (dbo.SA_PROGRAMA.REP_TEDS = 1)			--PROGRAMAS IDENTIFICADOS PARA ENVIAR TRANSACCIONES A SISTEMA TEDS
@@ -812,6 +817,10 @@
           <DataField>Episode</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -822,6 +831,9 @@
           <Tablix Name="table1">
             <TablixBody>
               <TablixColumns>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
                 <TablixColumn>
                   <Width>1in</Width>
                 </TablixColumn>
@@ -3650,6 +3662,43 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Usuario</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#666666</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
@@ -6103,12 +6152,46 @@
                         </Textbox>
                       </CellContents>
                     </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Usuario">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Usuario.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Usuario</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>#666666</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
                   </TablixCells>
                 </TablixRow>
               </TablixRows>
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -6206,14 +6289,14 @@
             <DataSetName>DataSet1</DataSetName>
             <Top>0.055in</Top>
             <Height>0.43in</Height>
-            <Width>72in</Width>
+            <Width>73in</Width>
             <Style />
           </Tablix>
         </ReportItems>
         <Height>0.86in</Height>
         <Style />
       </Body>
-      <Width>72in</Width>
+      <Width>73in</Width>
       <Page>
         <LeftMargin>1in</LeftMargin>
         <RightMargin>1in</RightMargin>
