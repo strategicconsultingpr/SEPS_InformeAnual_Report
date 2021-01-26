@@ -60,6 +60,7 @@
     <Report Include="DIS_SM_TEDS-SEPS MATCH.rdl" />
     <Report Include="Informe Anual Fecha.rdl" />
     <Report Include="Informe Anual.rdl" />
+    <Report Include="Reporte de Calidad (SEPS).rdl" />
     <Report Include="SAEP.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
