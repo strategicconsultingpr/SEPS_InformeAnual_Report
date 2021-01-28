@@ -41,7 +41,7 @@ E.PK_Episodio as 'Número de Episodio', E.FE_Alta as 'Fecha de Alta', Perfil.PK_
 FROM SA_EPISODIO as E INNER JOIN SA_PROGRAMA as P ON E.FK_Programa = P.PK_Programa
 		INNER JOIN SA_PERFIL as Perfil ON E.PK_Episodio = Perfil.FK_Episodio
 		INNER JOIN SA_PERSONA as Per ON E.FK_Persona = Per.PK_Persona
-		INNER JOIN SA_PERSONA_PROGRAMA ON Per.PK_Persona = SA_PERSONA_PROGRAMA.FK_Persona
+		LEFT JOIN SA_PERSONA_PROGRAMA ON Per.PK_Persona = SA_PERSONA_PROGRAMA.FK_Persona
 		AND P.PK_Programa = SA_PERSONA_PROGRAMA.FK_Programa
 		INNER JOIN SA_SESION as S ON Perfil.FK_Sesion = S.PK_Sesion
 		INNER JOIN SA_USUARIO as U ON S.FK_Usuario = U.PK_Usuario
