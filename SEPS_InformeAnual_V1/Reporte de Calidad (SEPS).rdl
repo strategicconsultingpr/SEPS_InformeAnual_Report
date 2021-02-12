@@ -1486,14 +1486,6 @@ WHERE
       </ValidValues>
       <MultiValue>true</MultiValue>
     </ReportParameter>
-    <ReportParameter Name="FechaInicial">
-      <DataType>DateTime</DataType>
-      <Prompt>Fecha Inicial</Prompt>
-    </ReportParameter>
-    <ReportParameter Name="FechaFinal">
-      <DataType>DateTime</DataType>
-      <Prompt>Fecha Final</Prompt>
-    </ReportParameter>
     <ReportParameter Name="TipoPerfil">
       <DataType>String</DataType>
       <DefaultValue>
@@ -1519,6 +1511,14 @@ WHERE
         </ParameterValues>
       </ValidValues>
       <MultiValue>true</MultiValue>
+    </ReportParameter>
+    <ReportParameter Name="FechaFinal">
+      <DataType>DateTime</DataType>
+      <Prompt>Fecha Final</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FechaInicial">
+      <DataType>DateTime</DataType>
+      <Prompt>Fecha Inicial</Prompt>
     </ReportParameter>
     <ReportParameter Name="NivelSM">
       <DataType>Integer</DataType>
@@ -1569,7 +1569,7 @@ WHERE
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>0</RowIndex>
+          <RowIndex>1</RowIndex>
           <ParameterName>FechaInicial</ParameterName>
         </CellDefinition>
         <CellDefinition>
@@ -1579,7 +1579,7 @@ WHERE
         </CellDefinition>
         <CellDefinition>
           <ColumnIndex>1</ColumnIndex>
-          <RowIndex>1</RowIndex>
+          <RowIndex>0</RowIndex>
           <ParameterName>TipoPerfil</ParameterName>
         </CellDefinition>
         <CellDefinition>
