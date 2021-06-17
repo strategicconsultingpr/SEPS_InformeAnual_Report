@@ -71,9 +71,9 @@
                          dbo.VW_PERFILES_MATRIX.IN_EdadInicioTerciario, dbo.VW_PERFILES_MATRIX.NR_CantidadTerciario, dbo.VW_PERFILES_MATRIX.Medida3, dbo.VW_PERFILES_MATRIX.NR_GastoTerciario, 
                          dbo.VW_PERFILES_MATRIX.NR_PromedioVisitas, dbo.VW_PERFILES_MATRIX.RazonAlta, dbo.VW_PERFILES_MATRIX.CentroTraslado, dbo.VW_PERFILES_MATRIX.TI_Transaccion, 
                          dbo.VW_PERFILES_MATRIX.FE_Edicion, dbo.VW_PERFILES_MATRIX.FK_Sesion, dbo.SA_USUARIO.NB_Usuario + ' ' + dbo.SA_USUARIO.AP_Usuario AS Usuario, 
-                         dbo.VW_PERFILES_MATRIX.FK_CategoriaCentroPrivado, dbo.VW_PERFILES_MATRIX.DE_CategoriaCentroPrivado, dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosClinicos1, 
-                         dbo.VW_PERFILES_MATRIX.[EjeV1-1], dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosClinicos2, dbo.VW_PERFILES_MATRIX.[EjeV1-2], dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosClinicos3, 
-                         dbo.VW_PERFILES_MATRIX.[EjeV1-3], dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosPersonalidadRM1, dbo.VW_PERFILES_MATRIX.[EjeV2-1], 
+                         dbo.VW_PERFILES_MATRIX.FK_CategoriaCentroPrivado, dbo.VW_PERFILES_MATRIX.DE_CategoriaCentroPrivado, dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosClinicos1,  dbo.VW_PERFILES_MATRIX.[CodigoICD10-1],
+                         dbo.VW_PERFILES_MATRIX.[EjeV1-1], dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosClinicos2,dbo.VW_PERFILES_MATRIX.[CodigoICD10-2], dbo.VW_PERFILES_MATRIX.[EjeV1-2], dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosClinicos3, 
+                         dbo.VW_PERFILES_MATRIX.[CodigoICD10-3],dbo.VW_PERFILES_MATRIX.[EjeV1-3], dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosPersonalidadRM1, dbo.VW_PERFILES_MATRIX.[EjeV2-1], 
                          dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosPersonalidadRM2, dbo.VW_PERFILES_MATRIX.[EjeV2-2], dbo.VW_PERFILES_MATRIX.FK_DSMV_TrastornosPersonalidadRM3, 
                          dbo.VW_PERFILES_MATRIX.[EjeV2-3], dbo.VW_PERFILES_MATRIX.FK_DSMV_ProblemasPsicosocialesAmbientales1, dbo.VW_PERFILES_MATRIX.EjeVPPA1, 
                          dbo.VW_PERFILES_MATRIX.FK_DSMV_ProblemasPsicosocialesAmbientales2, dbo.VW_PERFILES_MATRIX.EjeVPPA2, dbo.VW_PERFILES_MATRIX.FK_DSMV_ProblemasPsicosocialesAmbientales3, 
@@ -845,6 +845,10 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
           <DataField>FK_DSMV_TrastornosClinicos1</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
+        <Field Name="CodigoICD10_1">
+          <DataField>CodigoICD10-1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="EjeV1_1">
           <DataField>EjeV1-1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -855,6 +859,10 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
         </Field>
         <Field Name="EjeV1_2">
           <DataField>EjeV1-2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CodigoICD10_2">
+          <DataField>CodigoICD10-2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FK_DSMV_TrastornosClinicos3">
@@ -868,6 +876,10 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
         <Field Name="FK_DSMV_TrastornosPersonalidadRM1">
           <DataField>FK_DSMV_TrastornosPersonalidadRM1</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CodigoICD10_3">
+          <DataField>CodigoICD10-3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="EjeV2_1">
           <DataField>EjeV2-1</DataField>
@@ -1369,6 +1381,15 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
           <Tablix Name="table1">
             <TablixBody>
               <TablixColumns>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
                 <TablixColumn>
                   <Width>1in</Width>
                 </TablixColumn>
@@ -9323,6 +9344,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox215">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Codigo DSMV - 1</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox215</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="textbox177">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -9406,6 +9467,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox223">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Codigo DSMV - 2</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox223</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="textbox179">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -9479,6 +9580,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                             </BottomBorder>
                             <BackgroundColor>Orange</BackgroundColor>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox230">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Codigo DSMV - 3</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox230</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -18204,6 +18345,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="CodigoICD10_1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CodigoICD10_1.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CodigoICD10_1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="EjeV1_1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -18278,6 +18455,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="CodigoICD10_2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CodigoICD10_2.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CodigoICD10_2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="EjeV1_2">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -18342,6 +18555,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                               <Style>Solid</Style>
                             </BottomBorder>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CodigoICD10_3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CodigoICD10_3.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CodigoICD10_3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -20594,6 +20843,9 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -20620,14 +20872,14 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
             <Top>0.96125in</Top>
             <Left>0.01042in</Left>
             <Height>1.47861in</Height>
-            <Width>235.27431in</Width>
+            <Width>238.27431in</Width>
             <Style />
           </Tablix>
         </ReportItems>
         <Height>3.70375in</Height>
         <Style />
       </Body>
-      <Width>235.34029in</Width>
+      <Width>238.28473in</Width>
       <Page>
         <PageHeader>
           <Height>1.13666in</Height>
