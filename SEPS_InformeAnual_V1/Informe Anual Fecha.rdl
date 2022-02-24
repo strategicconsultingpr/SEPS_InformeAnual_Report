@@ -57,11 +57,13 @@
                          dbo.VW_PERFILES_MATRIX.DE_EstadoMarital, dbo.VW_PERFILES_MATRIX.DE_CondLaboral, dbo.VW_PERFILES_MATRIX.DE_NoFuerzaLaboral, dbo.VW_PERFILES_MATRIX.EmabarazosTrat, 
                          dbo.VW_PERFILES_MATRIX.NR_Hijos, dbo.VW_PERFILES_MATRIX.DE_Grado, dbo.VW_PERFILES_MATRIX.IN_Emancipado, dbo.VW_PERFILES_MATRIX.FE_UltimoInformeEscolar, 
                          dbo.VW_PERFILES_MATRIX.NR_PromedioAcademico, dbo.VW_PERFILES_MATRIX.NR_AusenciasAcad, dbo.VW_PERFILES_MATRIX.EducacionEspecial, dbo.VW_PERFILES_MATRIX.DesertorEscolar, 
-                         dbo.VW_PERFILES_MATRIX.DE_Familiar, dbo.VW_PERFILES_MATRIX.NR_Familiar, dbo.VW_PERFILES_MATRIX.DE_Residencia, dbo.VW_PERFILES_MATRIX.ReunGrupo, 
+                         STUFF( (SELECT ', ' + DE_Familiar from SA_LKP_COMPOSICION_FAMILIAR inner join SA_Ref_CompFamilia on PK_Familiar = FK_CompFamilia
+							where FK_Perfil in (dbo.VW_PERFILES_MATRIX.PK_NR_Perfil) FOR XML PATH('')),1,1,'') as DE_Familiar,
+	        dbo.VW_PERFILES_MATRIX.NR_Familiar, dbo.VW_PERFILES_MATRIX.DE_Residencia, dbo.VW_PERFILES_MATRIX.ReunGrupo, 
                          dbo.VW_PERFILES_MATRIX.DE_FreqAutoAyuda, dbo.VW_PERFILES_MATRIX.Arrestado30dias, dbo.VW_PERFILES_MATRIX.NR_Arrestos30dias, dbo.VW_PERFILES_MATRIX.Arrestado365dias, 
                          dbo.VW_PERFILES_MATRIX.IN_Arrestado365dias, dbo.VW_PERFILES_MATRIX.EstadoLegal, dbo.VW_PERFILES_MATRIX.DiagnosticoPrimario, dbo.VW_PERFILES_MATRIX.DiagnosticoSecundario, 
-                         dbo.VW_PERFILES_MATRIX.DiagnosticoTerciario, dbo.VW_PERFILES_MATRIX.[DSMIV1-1], dbo.VW_PERFILES_MATRIX.[DSMIV1-2], dbo.VW_PERFILES_MATRIX.[DSMIV1-3], 
-                         dbo.VW_PERFILES_MATRIX.[DSMIV2-1], dbo.VW_PERFILES_MATRIX.[DSMIV2-2], dbo.VW_PERFILES_MATRIX.[DSMIV2-3], dbo.VW_PERFILES_MATRIX.CO_CondicionesMedicasPrimario, 
+                         dbo.VW_PERFILES_MATRIX.DiagnosticoTerciario, dbo.VW_PERFILES_MATRIX.[DSMIV1-1], dbo.VW_PERFILES_MATRIX.[DE_DSMIV1-1], dbo.VW_PERFILES_MATRIX.[DSMIV1-2], dbo.VW_PERFILES_MATRIX.[DE_DSMIV1-2], dbo.VW_PERFILES_MATRIX.[DSMIV1-3], dbo.VW_PERFILES_MATRIX.[DE_DSMIV1-3], 
+                         dbo.VW_PERFILES_MATRIX.[DSMIV2-1], dbo.VW_PERFILES_MATRIX.[DE_DSMIV2-1], dbo.VW_PERFILES_MATRIX.[DSMIV2-2], dbo.VW_PERFILES_MATRIX.[DE_DSMIV2-2], dbo.VW_PERFILES_MATRIX.[DSMIV2-3], dbo.VW_PERFILES_MATRIX.[DE_DSMIV2-3], dbo.VW_PERFILES_MATRIX.CO_CondicionesMedicasPrimario, 
                          dbo.VW_PERFILES_MATRIX.CO_CondicionesMedicasSecundario, dbo.VW_PERFILES_MATRIX.CO_CondicionesMedicasTerciario, dbo.VW_PERFILES_MATRIX.[Eje4-1], dbo.VW_PERFILES_MATRIX.[Eje4-2], 
                          dbo.VW_PERFILES_MATRIX.[Eje4-3], dbo.VW_PERFILES_MATRIX.NR_EscalaGAF, dbo.VW_PERFILES_MATRIX.DE_ReferidosTX, dbo.VW_PERFILES_MATRIX.FK_DisposicionFinalReferido, 
                          dbo.VW_PERFILES_MATRIX.Droga1, dbo.VW_PERFILES_MATRIX.Via1, dbo.VW_PERFILES_MATRIX.Frecuencia1, dbo.VW_PERFILES_MATRIX.IN_EdadInicioPrimario, 
@@ -141,6 +143,9 @@ FROM
 						 dbo.SA_LKP_MILITAR as M on ND.FK_Militar = M.PK_MILITAR LEFT OUTER JOIN
 						 dbo.SA_LKP_MILITAR as FM on ND.FK_FamMilitar = FM.PK_MILITAR LEFT OUTER JOIN
 						 dbo.SA_LKP_GENERO as G on ND.FK_Genero = G.PK_Genero
+
+
+
 WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo.VW_EPISODIO.FK_Programa in  (@Programas)) AND (dbo.VW_PERFILES_MATRIX.IN_TI_Perfil in (@Tipo))</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
@@ -669,8 +674,16 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
           <DataField>DSMIV1-2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="DE_DSMIV1_1">
+          <DataField>DE_DSMIV1-1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="DSMIV1_3">
           <DataField>DSMIV1-3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DE_DSMIV1_2">
+          <DataField>DE_DSMIV1-2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DSMIV2_1">
@@ -679,6 +692,10 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
         </Field>
         <Field Name="DSMIV2_2">
           <DataField>DSMIV2-2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DE_DSMIV1_3">
+          <DataField>DE_DSMIV1-3</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="DSMIV2_3">
@@ -693,8 +710,16 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
           <DataField>CO_CondicionesMedicasSecundario</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="DE_DSMIV2_1">
+          <DataField>DE_DSMIV2-1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="CO_CondicionesMedicasTerciario">
           <DataField>CO_CondicionesMedicasTerciario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DE_DSMIV2_2">
+          <DataField>DE_DSMIV2-2</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Eje4_1">
@@ -707,6 +732,10 @@ WHERE        (dbo.VW_PERFILES_MATRIX.FE_Perfil BETWEEN @start AND @end) AND (dbo
         </Field>
         <Field Name="Eje4_3">
           <DataField>Eje4-3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DE_DSMIV2_3">
+          <DataField>DE_DSMIV2-3</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="NR_EscalaGAF">
@@ -1381,6 +1410,24 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
           <Tablix Name="table1">
             <TablixBody>
               <TablixColumns>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
                 <TablixColumn>
                   <Width>1in</Width>
                 </TablixColumn>
@@ -7485,6 +7532,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox219">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>DE DSMIV1 1</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox219</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="textbox132">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -7516,6 +7603,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                             </BottomBorder>
                             <BackgroundColor>Orange</BackgroundColor>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox232">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>DE DSMIV1 2</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox232</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -7567,6 +7694,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox236">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>DE DSMIV1 3</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox236</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="textbox134">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -7598,6 +7765,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                             </BottomBorder>
                             <BackgroundColor>Orange</BackgroundColor>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox239">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>DE DSMIV2 1</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox239</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -7649,6 +7856,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox243">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>DE DSMIV2 2</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox243</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="textbox136">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -7680,6 +7927,46 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                             </BottomBorder>
                             <BackgroundColor>Orange</BackgroundColor>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox247">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>DE DSMIV2 3</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox247</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <BackgroundColor>Orange</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -16680,6 +16967,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="DE_DSMIV1_1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DE_DSMIV1_1.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DE_DSMIV1_1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="DSMIV1_2">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -16707,6 +17030,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                               <Style>Solid</Style>
                             </BottomBorder>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DE_DSMIV1_2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DE_DSMIV1_2.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DE_DSMIV1_2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -16754,6 +17113,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="DE_DSMIV1_3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DE_DSMIV1_3.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DE_DSMIV1_3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="DSMIV2_1">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -16781,6 +17176,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                               <Style>Solid</Style>
                             </BottomBorder>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DE_DSMIV2_1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DE_DSMIV2_1.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DE_DSMIV2_1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -16828,6 +17259,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="DE_DSMIV2_2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DE_DSMIV2_2.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DE_DSMIV2_2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="DSMIV2_3">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -16855,6 +17322,42 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                               <Style>Solid</Style>
                             </BottomBorder>
                             <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DE_DSMIV2_3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DE_DSMIV2_3.Value</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DE_DSMIV2_3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -20846,6 +21349,12 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
               </TablixMembers>
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
@@ -20872,14 +21381,14 @@ select _PK_DSMV, DE_DSMV from [SEPS].[dbo].[SA_LKP_DSMV]</CommandText>
             <Top>0.96125in</Top>
             <Left>0.01042in</Left>
             <Height>1.47861in</Height>
-            <Width>238.27431in</Width>
+            <Width>244.27431in</Width>
             <Style />
           </Tablix>
         </ReportItems>
         <Height>3.70375in</Height>
         <Style />
       </Body>
-      <Width>238.28473in</Width>
+      <Width>244.28473in</Width>
       <Page>
         <PageHeader>
           <Height>1.13666in</Height>
